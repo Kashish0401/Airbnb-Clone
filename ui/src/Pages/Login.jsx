@@ -13,11 +13,11 @@ const Login = () => {
   const handleLogin = async (ev) => {
     ev.preventDefault();
     try {
-      const userInfo = await axios.post('/login', {
+      const {data} = await axios.post('/login', {
         email,
         password,
       }, { withCredentials: true });
-      setUser(userInfo)
+      setUser(data);
       alert('login successful!')
       setRedirect(true);
     }
