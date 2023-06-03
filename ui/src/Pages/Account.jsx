@@ -1,6 +1,9 @@
 import { useContext } from "react"
 import { UserContext } from "../UserContext"
 import { Link, Navigate, useParams } from "react-router-dom";
+import Profile from "./Profile";
+import Bookings from "./Bookings";
+import Places from "./Places";
 
 const Account = () => {
     const { user, ready } = useContext(UserContext);
@@ -23,7 +26,6 @@ const Account = () => {
         if (type === subpage) {
             classes += ' bg-primary text-white rounded-full';
         }
-        console.log(classes);
         return classes;
     }
 
@@ -34,6 +36,8 @@ const Account = () => {
                 <Link to={'/account/bookings'} className={LinkClasses('bookings')}>My bookings</Link>
                 <Link to={'/account/places'} className={LinkClasses('places')}>My accommodations</Link>
             </nav>
+            {subpage === 'places' ? <Places/> : subpage === 'bookings'? <Bookings/> : <Profile/>
+            }
         </div>
     )
 }
