@@ -1,9 +1,9 @@
 import { useContext } from "react"
 import { UserContext } from "../UserContext"
 import { Link, Navigate, useParams } from "react-router-dom";
-import Profile from "./Profile";
-import Bookings from "./Bookings";
-import Places from "./Places";
+import Profile from "../Pages/ProfilePage";
+import Bookings from "../Pages/BookingsPage";
+import Places from "../Pages/PlacesPage";
 
 const Account = () => {
     const { user, ready } = useContext(UserContext);
@@ -36,7 +36,7 @@ const Account = () => {
                 <Link to={'/account/bookings'} className={LinkClasses('bookings')}>My bookings</Link>
                 <Link to={'/account/places'} className={LinkClasses('places')}>My accommodations</Link>
             </nav>
-            {subpage === 'places' ? <Places/> : subpage === 'bookings'? <Bookings/> : <Profile/>
+            {subpage === 'places' ? <Places /> : subpage === 'bookings' ? <Bookings /> : <Profile />
             }
         </div>
     )
