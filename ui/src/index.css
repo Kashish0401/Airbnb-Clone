@@ -2,16 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-input[type="email"],input[type='password'],input[type="text"], textarea{
+input[type="email"],
+input[type='password'],
+input[type="text"],
+input[type="number"],
+textarea {
     @apply w-full border rounded-2xl py-2 px-3 my-1;
 }
 
-.primaryColor{
+.primaryColor {
     background-color: #F5385D;
     @apply text-white;
 }
 
-button.primary{
+button.primary {
     background-color: #F5385D;
     @apply w-full rounded-2xl text-white py-2;
 }
