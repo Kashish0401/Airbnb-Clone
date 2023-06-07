@@ -14,6 +14,7 @@ const bcryptSalt = bcrypt.genSaltSync(10);
 
 app.use(express.json());
 app.use(cookieParser());
+app.use('/uploads', express.static(__dirname+'/uploads'))
 app.use(
   cors({
     credentials: true,
@@ -85,13 +86,13 @@ app.post('/logout', (req, res) => {
   res.cookie('token', '').json(true)
 });
 
-// console.log({ __dirname }); //this is the full path and it makes the app safer
+console.log({ __dirname }); //this is the full path and it makes the app safer
 app.post('/upload-by-link', async (req, res) => {
   const { link } = req.body;
-  const newName = Date.now() + '.jpg';
+  const newName = 'photo' + Date.now() + '.jpg';
   await imageDownloader.image({
     url: link,
-    dest: __dirname + '/uploads' + newName,
+    dest: __dirname + '/uploads/' + newName,
   });
   res.json(newName);
 });
