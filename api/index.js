@@ -6,6 +6,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const imageDownloader = require('image-downloader');
+const multer = require("multer");
+const fs = require('fs');
+
 require("dotenv").config();
 const app = express();
 
@@ -86,7 +89,7 @@ app.post('/logout', (req, res) => {
   res.cookie('token', '').json(true)
 });
 
-console.log({ __dirname }); //this is the full path and it makes the app safer
+//console.log({ __dirname }); //this is the full path and it makes the app safer
 app.post('/upload-by-link', async (req, res) => {
   const { link } = req.body;
   const newName = 'photo' + Date.now() + '.jpg';
@@ -97,4 +100,17 @@ app.post('/upload-by-link', async (req, res) => {
   res.json(newName);
 });
 
-app.listen(4000);
+const photosMiddleware = multer({ dest: 'uploads/' });
+app.post('/uploads', photosMiddleware.array('photos', 10), (req, res) => {
+  const uploaded = [];
+  for (let i = 0; i < req.files.length; i++) {
+    const { path, originalname } = req.files[i];
+    const parts = originalname.split('.');
+    const ext = parts[parts.length - 1];
+    const newPath = path + '.' + ext;
+    fs.renameSync(path, newPath);
+    uploaded.push(newPath.replace('uploads\\', ''));
+  }
+  res.json(uploaded);
+});
+app.listen(4000); 

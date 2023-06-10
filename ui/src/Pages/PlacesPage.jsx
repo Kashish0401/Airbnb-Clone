@@ -56,7 +56,7 @@ const Places = () => {
       headers: { 'Content-type': 'multipart/form-data' }
     });
     setAddedPhotos(prev => {
-      return [...prev, filename];
+      return [...prev, ...filename];
     })
   }
 
