@@ -52,11 +52,11 @@ const Places = () => {
     for (let i = 0; i < files.length; i++){
       data.append('photos', files[i]);
     }
-    const {data:filename} = await axios.post('/uploads', data, {
+    const {data:filenames} = await axios.post('/uploads', data, {
       headers: { 'Content-type': 'multipart/form-data' }
     });
     setAddedPhotos(prev => {
-      return [...prev, ...filename];
+      return [...prev, ...filenames];
     })
   }
 
@@ -95,8 +95,8 @@ const Places = () => {
           </div>
           <div className="mt-2 grid gap-2 grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
             {addedPhotos.length > 0 && addedPhotos.map(link => (
-              <div>
-                <img src={'http://localhost:4000/uploads/' + link} className="rounded-2xl" />
+              <div className="h-32 flex">
+                <img src={'http://localhost:4000/uploads/' + link} className="rounded-2xl w-full object-cover" />
               </div>
             ))
             }
