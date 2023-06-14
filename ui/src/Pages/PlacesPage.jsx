@@ -6,6 +6,7 @@ import PhotosUploader from "../Components/PhotosUploader";
 const Places = () => {
   const { action } = useParams();
   const [title, setTitle] = useState('');
+  const [addedPhotos, setAddedPhotos] = useState([]);
   const [address, setAddress] = useState('');
   const [description, setDescription] = useState('');
   const [perks, setPerks] = useState([]);
@@ -33,6 +34,10 @@ const Places = () => {
     );
   }
 
+  function addNewPlace() {
+    
+  }
+
   return (
     <>
       {action !== 'new' && (
@@ -58,7 +63,7 @@ const Places = () => {
             onChange={ev => setAddress(ev.target.value)}
             placeholder="address" />
           {preInput('Photos', 'the more the better')}
-          <PhotosUploader/>
+          <PhotosUploader addedPhotos={addedPhotos} onChange={setAddedPhotos} />
           {preInput('Description', 'A small description about your place')}
           <textarea value={description} onChange={ev => setDescription(ev.target.value)} />
           {preInput('Perks', 'select all the perks of your place')}
