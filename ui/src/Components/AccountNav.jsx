@@ -1,33 +1,19 @@
-import { useContext } from "react"
-import { UserContext } from "../UserContext"
-import { Link, Navigate, useParams } from "react-router-dom";
-import Profile from "../Pages/ProfilePage";
-import Bookings from "../Pages/BookingsPage";
-import Places from "../Pages/PlacesPage";
+import { Link, useLocation } from "react-router-dom";
 
-const Account = () => {
-    const { user, ready } = useContext(UserContext);
+const AccountNav = () => {
 
-    let { subpage } = useParams();
-    if (subpage === undefined)
+    const { pathname } = useLocation();
+    let subpage = pathname.split('/')?.[2];
+    if (subpage === undefined) {
         subpage = 'profile';
-
-    if (!ready) {
-        return <div>Loading...</div>
     }
-    if (ready && !user) {
-        return (
-            <Navigate to='/login' />
-        )
-    }
-
     function LinkClasses(type = null) {
         let classes = "px-8 py-2 flex gap-1 rounded-full"
         if (type === subpage) {
             classes += ' bg-primary text-white';
         }
         else {
-            classes+= ' bg-gray-200'
+            classes += ' bg-gray-200'
         }
         return classes;
     }
@@ -54,10 +40,9 @@ const Account = () => {
                     My accommodations
                 </Link>
             </nav>
-            {subpage === 'places' ? <Places /> : subpage === 'bookings' ? <Bookings /> : <Profile />
-            }
+
         </>
     )
 }
 
-export default Account
+export default AccountNav

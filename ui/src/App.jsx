@@ -5,15 +5,12 @@ import Layout from "./Layout"
 import Register from "./Pages/RegisterPage"
 import axios from "axios"
 import { UserContextProvider } from "./UserContext"
-import Account from "./Components/AccountNav"
-import Profile from "./Pages/ProfilePage"
-import Bookings from "./Pages/BookingsPage"
-import Places from "./Pages/PlacesPage"
+import Account from "./Pages/AccountPage"
 
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
 
-function App() {
+const App = () => {
 
   return (
     <UserContextProvider>
