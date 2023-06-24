@@ -6,6 +6,9 @@ import Register from "./Pages/RegisterPage"
 import axios from "axios"
 import { UserContextProvider } from "./UserContext"
 import Account from "./Pages/AccountPage"
+import PlacesPage from "./Pages/PlacesPage"
+import Bookings from "./Pages/BookingsPage"
+import PlacesForm from "./Components/PlacesForm"
 
 axios.defaults.baseURL = "http://localhost:4000";
 axios.defaults.withCredentials = true;
@@ -20,8 +23,10 @@ const App = () => {
             <Route index element={<IndexPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path='/account/:subpage?' element={<Account />} />
-            <Route path='/account/:subpage/:action' element={<Account />} />
+            <Route path='/account' element={<Account />} />
+            <Route path='/account/places' element={<PlacesPage />} />
+            <Route path='/account/bookings' element={<Bookings />} />
+            <Route path='/account/places/new' element={<PlacesForm/>}/>
           </Route>
         </Routes>
       </BrowserRouter>
