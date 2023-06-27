@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Perks from "../Components/Perks";
 import PhotosUploader from "../Components/PhotosUploader";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 
 const PlacesForm = () => {
 
+    const { id } = useParams();
+    console.log(id);
     const [title, setTitle] = useState('');
     const [addedPhotos, setAddedPhotos] = useState([]);
     const [address, setAddress] = useState('');
@@ -17,6 +19,22 @@ const PlacesForm = () => {
     const [maxGuests, setMaxGuests] = useState(1);
     const [redirect, setRedirect] = useState(false);
     
+    useEffect(() => {
+        if (id) {
+            axios.get('/places/' + id).then(res => {
+                const { data } = res;
+                setTitle(data.title);
+                setAddedPhotos(data.photos);
+                setAddress(data.address);
+                setDescription(data.description);
+                setPerks(data.perks);
+                setExtraInfo(data.extraInfo);
+                setCheckIn(data.checkIn);
+                setCheckOut(data.checkOut);
+                setMaxGuests(data.maxGuests);
+            })
+        }
+    }, [id]);
 
     function inputHeader(text) {
         return (
@@ -37,14 +55,22 @@ const PlacesForm = () => {
         );
     }
 
-    async function addNewPlace(ev) {
+    async function savePlace(ev) {
         ev.preventDefault();
-        await axios.post('/places', {
+        const placeData = {
             title, addedPhotos, description,
             address, perks, extraInfo,
             checkIn, checkOut, maxGuests
-        });
-        setRedirect(true);
+        }
+        if (id) {
+            await axios.put('/places', { id, ...placeData });
+            setRedirect(true);
+        }
+        else {
+            await axios.post('/places', placeData);
+            setRedirect(true); 
+        }
+        
     }
 
     if (redirect) {
@@ -52,7 +78,7 @@ const PlacesForm = () => {
     }
 
     return (
-      <form className="mx-4 md:mx-2" onSubmit={addNewPlace}>
+      <form className="mx-4 md:mx-2" onSubmit={savePlace}>
           {preInput('Title', 'Title for your place. should be short and catchy for advertisement')}
           <input type="text"
               placeholder="title, like my summer home"

@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom"
 import AccountNav from "../Components/AccountNav"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import axios from "axios";
 
 const PlacesPage = () => {
 
   const [places, setPlaces] = useState([]);
 
-  const addedPlaces = async () => {
-    const { data } = await axios.get('/place');
-    setPlaces(data);
-  }
+  useEffect(() => {
+    axios.get('/place').then(({ data }) => {
+      setPlaces(data);
+    });
+  }, []);
 
   return (
     <>
@@ -21,10 +23,20 @@ const PlacesPage = () => {
           </svg>
           Add new place</Link>
       </div>
-      <div>
-        {places.length > 0 && places.map(place => {
-          
-        })}
+      <div className="mt-4">
+        {places.length > 0 && places.map((place, key) => (
+          <Link to={'/account/places/'+place._id} className="bg-gray-200 cursor-pointer p-2 rounded-2xl mb-3 flex gap-3" key={key}>
+            <div className="w-32 h-32 shrink-0 bg-gray-300 rounded-xl">
+              {
+                place.photos.length > 0 && <img src={'http://localhost:4000/uploads/' + place.photos[0]} alt='' className="" />
+              }
+            </div >
+            <div className="">
+              <h2 className="text-xl">{place.title}</h2>
+              <p className="mt-2 text-sm">{place.description}</p>
+            </div>
+          </Link>
+        ))}
       </div>
     </>
   )

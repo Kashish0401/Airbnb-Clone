@@ -26,7 +26,8 @@ const App = () => {
             <Route path='/account' element={<Account />} />
             <Route path='/account/places' element={<PlacesPage />} />
             <Route path='/account/bookings' element={<Bookings />} />
-            <Route path='/account/places/new' element={<PlacesForm/>}/>
+            <Route path='/account/places/new' element={<PlacesForm />} />
+            <Route path='/account/places/:id' element={<PlacesForm />} />
           </Route>
         </Routes>
       </BrowserRouter>

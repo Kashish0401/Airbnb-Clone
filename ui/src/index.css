@@ -6,8 +6,12 @@ input[type="email"],
 input[type='password'],
 input[type="text"],
 input[type="number"],
-textarea {
+textarea{
     @apply w-full border rounded-2xl py-2 px-3 my-1;
+}
+
+textarea{
+    height: 150px;
 }
 
 .primaryColor {
