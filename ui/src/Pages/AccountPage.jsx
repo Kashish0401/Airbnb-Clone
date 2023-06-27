@@ -3,6 +3,7 @@ import { UserContext } from "../UserContext"
 import { useContext, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import PlacesPage from "./PlacesPage";
+import axios from "axios";
 
 const AccountPage = () => {
 
