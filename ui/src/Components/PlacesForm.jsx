@@ -17,12 +17,14 @@ const PlacesForm = () => {
     const [checkIn, setCheckIn] = useState('');
     const [checkOut, setCheckOut] = useState('');
     const [maxGuests, setMaxGuests] = useState(1);
+    const [price, setPrice] = useState(0);
     const [redirect, setRedirect] = useState(false);
     
     useEffect(() => {
         if (id) {
             axios.get('/places/' + id).then(res => {
                 const { data } = res;
+                console.log(data);
                 setTitle(data.title);
                 setAddedPhotos(data.photos);
                 setAddress(data.address);
@@ -32,6 +34,7 @@ const PlacesForm = () => {
                 setCheckIn(data.checkIn);
                 setCheckOut(data.checkOut);
                 setMaxGuests(data.maxGuests);
+                setPrice(data.price);
             })
         }
     }, [id]);
@@ -60,7 +63,7 @@ const PlacesForm = () => {
         const placeData = {
             title, addedPhotos, description,
             address, perks, extraInfo,
-            checkIn, checkOut, maxGuests
+            checkIn, checkOut, maxGuests, price,
         }
         if (id) {
             await axios.put('/places', { id, ...placeData });
@@ -69,8 +72,7 @@ const PlacesForm = () => {
         else {
             await axios.post('/places', placeData);
             setRedirect(true); 
-        }
-        
+        }   
     }
 
     if (redirect) {
@@ -116,7 +118,7 @@ const PlacesForm = () => {
               </div>
               <div>
                   <h3 className="mt-2 -mb-1">Price per night</h3>
-                  <input type="number" />
+                    <input type="number" value={ price} onChange={ev=> setPrice(ev.target.value)} />
               </div>
           </div>
           <button className="primaryColor rounded-2xl py-2 px-8 my-4">Save</button>

@@ -92,13 +92,18 @@ app.post('/logout', (req, res) => {
 
 //console.log({ __dirname }); //this is the full path and it makes the app safer
 app.post('/upload-by-link', async (req, res) => {
-  const { link } = req.body;
-  const newName = 'photo' + Date.now() + '.jpg';
-  await imageDownloader.image({
-    url: link,
-    dest: __dirname + '/uploads/' + newName,
-  });
-  res.json(newName);
+  try {
+    const { link } = req.body;
+    const newName = 'photo' + Date.now() + '.jpg';
+    await imageDownloader.image({
+      url: link,
+      dest: __dirname + '/uploads/' + newName,
+    });
+    res.json(newName);
+  }
+  catch (e) {
+    res.status(422).json('Please enter something')
+  }
 });
 
 const photosMiddleware = multer({ dest: 'uploads/' });
@@ -120,7 +125,7 @@ app.post('/places', (req, res) => {
   const {
     title, address, addedPhotos,
     description, perks, extraInfo,
-    checkIn, checkOut, maxGuests } = req.body;
+    checkIn, checkOut, maxGuests, price } = req.body;
   jwt.verify(token, jwtoken, {}, async (err, userData) => {
     if (err) throw err;
     const placeDoc = await Place.create({
@@ -134,6 +139,7 @@ app.post('/places', (req, res) => {
       checkIn,
       checkOut,
       maxGuests,
+      price,
     });
     res.json(placeDoc);
   });
@@ -156,9 +162,9 @@ app.get('/places/:id', async (req, res) => {
 app.put('/places', async (req, res) => {
   const { token } = req.cookies;
   const {
-    title, address, addedPhotos,
+    id, title, address, addedPhotos,
     description, perks, extraInfo,
-    checkIn, checkOut, maxGuests, id } = req.body;
+    checkIn, checkOut, maxGuests, price } = req.body;
   jwt.verify(token, jwtoken, {}, async (err, userData) => {
     if (err) throw err;
     const placeDoc = await Place.findById(id);
@@ -167,7 +173,7 @@ app.put('/places', async (req, res) => {
       placeDoc.set({
         title, address, photos: addedPhotos,
         description, perks, extraInfo,
-        checkIn, checkOut, maxGuests
+        checkIn, checkOut, maxGuests, price
       });
       await placeDoc.save();
       res.json('ok');
@@ -175,6 +181,8 @@ app.put('/places', async (req, res) => {
   });
 });
 
-
-
+/*app.get('/places', (req, res) => {
+  
+})
+*/
 app.listen(4000);
