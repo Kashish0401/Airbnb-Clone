@@ -139,7 +139,7 @@ app.post('/places', (req, res) => {
   });
 });
 
-app.get('/place', (req, res) => {
+app.get('/user-places', (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, jwtoken, {}, async (err, userData) => {
     const { id } = userData;
@@ -162,7 +162,7 @@ app.put('/places', async (req, res) => {
   jwt.verify(token, jwtoken, {}, async (err, userData) => {
     if (err) throw err;
     const placeDoc = await Place.findById(id);
-    //console.log(placeDoc.owner.toString());
+    //console.log(placeDoc.owner, placeDoc.owner.toString());
     if (placeDoc.owner.toString() === userData.id) {
       placeDoc.set({
         title, address, photos: addedPhotos,
@@ -173,6 +173,8 @@ app.put('/places', async (req, res) => {
       res.json('ok');
     }
   });
-})
+});
+
+
 
 app.listen(4000);

@@ -7,7 +7,7 @@ import { Navigate, useParams } from "react-router-dom";
 const PlacesForm = () => {
 
     const { id } = useParams();
-    console.log(id);
+    //console.log(id);
     const [title, setTitle] = useState('');
     const [addedPhotos, setAddedPhotos] = useState([]);
     const [address, setAddress] = useState('');
