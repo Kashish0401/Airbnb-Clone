@@ -160,29 +160,56 @@ app.get('/places/:id', async (req, res) => {
 });
 
 app.put('/places', async (req, res) => {
-  const { token } = req.cookies;
-  const {
-    id, title, address, addedPhotos,
-    description, perks, extraInfo,
-    checkIn, checkOut, maxGuests, price } = req.body;
-  jwt.verify(token, jwtoken, {}, async (err, userData) => {
-    if (err) throw err;
-    const placeDoc = await Place.findById(id);
-    //console.log(placeDoc.owner, placeDoc.owner.toString());
-    if (placeDoc.owner.toString() === userData.id) {
-      placeDoc.set({
-        title, address, photos: addedPhotos,
-        description, perks, extraInfo,
-        checkIn, checkOut, maxGuests, price
-      });
-      await placeDoc.save();
-      res.json('ok');
-    }
-  });
+  try{
+    const { token } = req.cookies;
+    const {
+      id,
+      title,
+      address,
+      addedPhotos,
+      description,
+      perks,
+      extraInfo,
+      checkIn,
+      checkOut,
+      maxGuests,
+      price,
+    } = req.body;
+    jwt.verify(token, jwtoken, {}, async (err, userData) => {
+      if (err) throw err;
+      const placeDoc = await Place.findById(id);
+      //console.log(placeDoc.owner, placeDoc.owner.toString());
+      if (placeDoc.owner.toString() === userData.id) {
+        placeDoc.set({
+          title,
+          address,
+          photos: addedPhotos,
+          description,
+          perks,
+          extraInfo,
+          checkIn,
+          checkOut,
+          maxGuests,
+          price,
+        });
+        await placeDoc.save();
+        res.json("ok");
+      }
+    });
+  }
+  catch (e) {
+    res.status(422).json('Invalid data');
+  }
 });
 
-/*app.get('/places', (req, res) => {
-  
-})
-*/
+app.get('/places', async (req, res) => {
+  try {
+    const data = await Place.find();
+  res.json(data);
+  }
+  catch (e) {
+    res.json(e);
+  }
+});
+
 app.listen(4000);
