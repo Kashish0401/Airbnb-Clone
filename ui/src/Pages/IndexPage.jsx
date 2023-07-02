@@ -16,18 +16,18 @@ const IndexPage = () => {
 
   return (
     <>
-      <div className='mt-8 gap-y-8 gap-x-6 grid grid-cols-2 lg:grid-cols-4 md:grid-cols-3 rounded-2xl'>
+      <div className='mt-8 grid gap-y-8 gap-x-6 grid-cols-2 lg:grid-cols-3 md:grid-cols-3 rounded-2xl'>
         {
           places.length > 0 && places.map((place) => (
             <div className=''>
               <div className='bg-gray-400 mb-2 rounded-2xl flex'>
                 {place.photos.length > 0 && 
-                <img src={'http://localhost:4000/uploads/'+place.photos[0]} alt='place.title' className='rounded-2xl object-fit aspect-square'/>  
+                <img src={'http://localhost:4000/uploads/'+place.photos[0]} alt='place.title' className='rounded-2xl object-cover aspect-square'/>  
               }
               </div>
-              <div> {place.address}</div>
-              <div> {place.title}</div>
-              <div>{ place.price}</div>
+              <h2 className='font-medium'> {place.address}</h2>
+              <h3 className='text-sm text-gray-500'> {place.title}</h3>
+              <div className='mt-1'><span className='font-semibold'>{place.price}</span></div>
             </div>
           ))
         }
