@@ -1,4 +1,6 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom';
 
 const PlacePage = () => {
   const { id } = useParams();
@@ -12,9 +14,12 @@ const PlacePage = () => {
     });
   }, [id]);
 
+  if (!place)
+    return "";
+  
   return (
     <>
-      Place Page
+      Place page
     </>
   )
 }
